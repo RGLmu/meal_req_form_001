@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Request Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 300px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Meal Request Form</h2>
+        <form id="mealRequestForm">
+            <label for="shortName">Short Name:</label>
+            <input type="text" id="shortName" required>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" required>
+
+            <label for="lunchAmount">Lunch Amount:</label>
+            <select id="lunchAmount">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+
+            <label for="dinnerAmount">Dinner Amount:</label>
+            <select id="dinnerAmount">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <p id="responseMessage"></p>
+    </div>
+
+    <script>
+        document.getElementById("mealRequestForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let shortName = document.getElementById("shortName").value;
+            let date = document.getElementById("date").value;
+            let lunchAmount = document.getElementById("lunchAmount").value;
+            let dinnerAmount = document.getElementById("dinnerAmount").value;
+
+            let formData = {
+                shortName,
+                date,
+                lunchAmount,
+                dinnerAmount
+            };
+
+            fetch("YOUR_GOOGLE_SCRIPT_URL_HERE", {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(() => {
+                document.getElementById("responseMessage").textContent = "Meal request submitted successfully!";
+                document.getElementById("mealRequestForm").reset();
+            })
+            .catch(error => {
+                document.getElementById("responseMessage").textContent = "Error submitting request.";
+                console.error("Error:", error);
+            });
+        });
+    </script>
+</body>
+</html>
